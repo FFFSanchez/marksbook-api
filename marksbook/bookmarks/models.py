@@ -1,10 +1,9 @@
 from django.db import models
-from users.models import MyUser
+from api.models import MyUser
 
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
     description = models.TextField()
     pub_date = models.DateTimeField(
         'Pub date', auto_now_add=True

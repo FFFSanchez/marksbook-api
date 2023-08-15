@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
+    'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'api.apps.ApiConfig',
-    'users.apps.UsersConfig',
     'bookmarks.apps.BookmarksConfig',
 ]
 
@@ -137,19 +137,19 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
-SIMPLE_JWT = {
-    # Устанавливаем срок жизни токена
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_HEADER_TYPES': ('Token',),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
-}
+# SIMPLE_JWT = {
+#     # Устанавливаем срок жизни токена
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+#     'AUTH_HEADER_TYPES': ('Token',),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+# }
 
 DJOSER = {
     'LOGIN_FIELD': 'email'
 }
 
-AUTH_USER_MODEL = 'users.MyUser'
+AUTH_USER_MODEL = 'api.MyUser'
