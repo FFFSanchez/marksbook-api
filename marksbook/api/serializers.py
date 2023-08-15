@@ -6,7 +6,8 @@ class BookmarkSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='email',
         read_only=True)
-    collection = serializers.SlugRelatedField(
+    collections = serializers.SlugRelatedField(
+        many=True,
         slug_field='title',
         queryset=Collection.objects.all(),
         required=False,
@@ -20,15 +21,23 @@ class BookmarkSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         author = self.context['request'].user
         link = attrs['link']
-        if Bookmark.objects.filter(author=author, link=link).exists():
-            raise serializers.ValidationError(
-                'This bookmark has already been added by you!'
-            )
+        if self.context['request'].method == 'POST':
+            if Bookmark.objects.filter(author=author, link=link).exists():
+                raise serializers.ValidationError(
+                    'This bookmark has already been added by you!'
+                )
         return attrs
 
 
 class CollectionSerializer(serializers.ModelSerializer):
-    bookmarks = BookmarkSerializer(read_only=True, many=True)
+    author = serializers.SlugRelatedField(
+        slug_field='email',
+        read_only=True)
+    bookmarks = serializers.SlugRelatedField(
+        many=True,
+        slug_field='title',
+        queryset=Bookmark.objects.all()
+    )
 
     class Meta:
         model = Collection

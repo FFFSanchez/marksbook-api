@@ -11,6 +11,13 @@ class CollectionViewSet(viewsets.ModelViewSet):
     pagination_class = None
     permission_classes = [OwnerOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        """ Show to user only his collections """
+        return self.request.user.collections.all()
+
 
 class BookmarkViewSet(viewsets.ModelViewSet):
     queryset = Bookmark.objects.all()
@@ -27,3 +34,7 @@ class BookmarkViewSet(viewsets.ModelViewSet):
             type_of_link=page_og_info.get('og_link_type'),
             image_url=page_og_info.get('og_image'),
         )
+
+    def get_queryset(self):
+        """ Show to user only his bookmarks """
+        return self.request.user.bookmarks.all()

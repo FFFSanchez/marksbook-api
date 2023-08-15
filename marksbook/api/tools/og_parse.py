@@ -9,7 +9,6 @@ def get_page(url):
     Returns:
         soup (string): HTML source of scraped page.
     """
-
     response = urllib.request.urlopen(url)
     soup = BeautifulSoup(response,
                          'html.parser',
@@ -22,65 +21,61 @@ def get_og_title(soup):
     """Return the Open Graph title
     Args:
         soup: HTML from Beautiful Soup.
-
     Returns:
         value: Parsed content.
     """
-
     if soup.findAll("meta", property="og:title"):
         return soup.find("meta", property="og:title")["content"]
     else:
-        return
+        return soup.title.string.strip()
 
 
 def get_og_description(soup):
     """Return the Open Graph description
     Args:
         soup: HTML from Beautiful Soup.
-
     Returns:
         value: Parsed content.
     """
     if soup.findAll("meta", property="og:description"):
         return soup.find("meta", property="og:description")["content"]
+    elif soup.findAll("meta", {"name": "description"}):
+        return soup.find("meta", {"name": "description"})["content"]
     else:
-        return
-
-
-def get_og_url(soup):
-
-    if soup.findAll("meta", property="og:url"):
-        return soup.find("meta", property="og:url")["content"]
-    else:
-        return
+        return 'No description'
 
 
 def get_og_link_type(soup):
-
     if soup.findAll("meta", property="og:type"):
+        print('type')
         return soup.find("meta", property="og:type")["content"]
     else:
-        return
+        return 'website'
 
 
 def get_og_image(soup):
-
     if soup.findAll("meta", property="og:image"):
+        print('image')
         return soup.find("meta", property="og:image")["content"]
     else:
-        return
+        return None
 
+# soup2 = get_page("http://atrifonov.pythonanywhere.com/0/")
+# print(get_no_og_title(soup2))
 
-# soup = get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/")
 
 def get_og_info(link):
+    """ Get nessesary og info from page by url link """
     soup = get_page(link)
-    og_info = {
-        'og_title': get_og_title(soup),
-        'og_description': get_og_description(soup),
-        'og_url': get_og_url(soup),
-        'og_link_type': get_og_link_type(soup),
-        'og_image': get_og_image(soup)
-    }
-    # print(og_info)
-    return og_info
+    try:
+        og_info = {
+            'og_title': get_og_title(soup),
+            'og_description': get_og_description(soup),
+            'og_link_type': get_og_link_type(soup),
+            'og_image': get_og_image(soup)
+        }
+        # print(og_info)
+        return og_info
+    except Exception as err:
+        print(err)
+        print('Smth go wrong while parsing!')

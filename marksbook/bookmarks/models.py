@@ -9,6 +9,9 @@ from tempfile import NamedTemporaryFile
 class Collection(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
+    author = models.ForeignKey(
+        MyUser, on_delete=models.CASCADE, related_name='collections'
+    )
     pub_date = models.DateTimeField(
         'Pub date', auto_now_add=True
     )
@@ -46,7 +49,7 @@ class Bookmark(models.Model):
         blank=True,
         null=True,
     )
-    image_url = models.URLField()
+    image_url = models.URLField(null=True)
     author = models.ForeignKey(
         MyUser, on_delete=models.CASCADE, related_name='bookmarks'
     )
@@ -54,14 +57,17 @@ class Bookmark(models.Model):
         'Pub date', auto_now_add=True
     )
     last_update = models.DateTimeField(auto_now=True)
-    collection = models.ForeignKey(
-        Collection, on_delete=models.SET_NULL,
-        related_name='bookmarks', blank=True, null=True
+    collections = models.ManyToManyField(
+        Collection,
+        through='BookmarksCollections',
+        blank=True,
+        related_name='bookmarks'
     )
 
     class Meta:
         verbose_name = ('Bookmark')
         verbose_name_plural = ('Bookmarks')
+        ordering = ['-last_update']
 
     def __str__(self):
         return self.title
@@ -76,3 +82,11 @@ class Bookmark(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.get_remote_image()
+
+
+class BookmarksCollections(models.Model):
+    bookmark = models.ForeignKey(Bookmark, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.bookmark} {self.collection}'

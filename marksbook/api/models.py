@@ -34,6 +34,9 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
+    """
+    Custom User Model
+    """
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,

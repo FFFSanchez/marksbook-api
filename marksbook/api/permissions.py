@@ -2,7 +2,7 @@ from rest_framework import permissions
 
 
 class OwnerOrReadOnly(permissions.BasePermission):
-
+    """ Only Author can use Unsafe methods"""
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS
@@ -17,7 +17,7 @@ class OwnerOrReadOnly(permissions.BasePermission):
 
 
 class OwnerOnly(permissions.BasePermission):
-
+    """ If we want to hide our Bookmarks from others """
     def has_permission(self, request, view):
         return (
             request.user.is_authenticated
