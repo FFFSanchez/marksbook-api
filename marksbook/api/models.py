@@ -49,8 +49,26 @@ class MyUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+    def get_full_name(self):
+        pass
+
+    def get_short_name(self):
+        pass
+
+    @property
+    def is_superuser(self):
+        return self.is_admin
+
     @property
     def is_staff(self):
-        """Is the user a member of staff?"""
-        # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    @is_staff.setter
+    def is_staff(self, value):
+        self._is_staff = value

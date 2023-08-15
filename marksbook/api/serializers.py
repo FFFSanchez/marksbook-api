@@ -14,8 +14,17 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bookmark
-        fields = '__all__'  # ('link', 'collection', 'author')
+        fields = '__all__'
         read_only_fields = ('title', 'description', 'image_url')
+
+    def validate(self, attrs):
+        author = self.context['request'].user
+        link = attrs['link']
+        if Bookmark.objects.filter(author=author, link=link).exists():
+            raise serializers.ValidationError(
+                'This bookmark has already been added by you!'
+            )
+        return attrs
 
 
 class CollectionSerializer(serializers.ModelSerializer):

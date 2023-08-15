@@ -13,10 +13,3 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
 ]
-
-
-# router.register(
-#     r'^posts/(?P<post_id>\d+)/comments',
-#     CommentViewSet,
-#     basename='comment'
-# )

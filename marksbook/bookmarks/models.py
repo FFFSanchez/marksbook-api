@@ -1,11 +1,9 @@
 from django.db import models
 from api.models import MyUser
 
-import os
 from django.core.files import File
 from urllib.request import urlopen
 from tempfile import NamedTemporaryFile
-import urllib.request
 
 
 class Collection(models.Model):

@@ -1,5 +1,4 @@
 import urllib.request
-# from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 
@@ -19,9 +18,6 @@ def get_page(url):
     return soup
 
 
-# soup = get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/")
-
-
 def get_og_title(soup):
     """Return the Open Graph title
     Args:
@@ -35,10 +31,6 @@ def get_og_title(soup):
         return soup.find("meta", property="og:title")["content"]
     else:
         return
-
-
-# og_title = get_og_title(soup)
-# print(og_title)
 
 
 def get_og_description(soup):
@@ -55,20 +47,12 @@ def get_og_description(soup):
         return
 
 
-# og_description = get_og_description(soup)
-# print(og_description)
-
-
 def get_og_url(soup):
 
     if soup.findAll("meta", property="og:url"):
         return soup.find("meta", property="og:url")["content"]
     else:
         return
-
-
-# og_url = get_og_url(soup)
-# print(og_url)
 
 
 def get_og_link_type(soup):
@@ -79,10 +63,6 @@ def get_og_link_type(soup):
         return
 
 
-# og_link_type = get_og_link_type(soup)
-# print(og_link_type)
-
-
 def get_og_image(soup):
 
     if soup.findAll("meta", property="og:image"):
@@ -91,21 +71,16 @@ def get_og_image(soup):
         return
 
 
-# og_image = get_og_image(soup)
-# print(og_image)
-
-
 # soup = get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/")
 
 def get_og_info(link):
     soup = get_page(link)
     og_info = {
-        # 'url': get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/"),
         'og_title': get_og_title(soup),
         'og_description': get_og_description(soup),
         'og_url': get_og_url(soup),
         'og_link_type': get_og_link_type(soup),
         'og_image': get_og_image(soup)
     }
-    print(og_info)
+    # print(og_info)
     return og_info
