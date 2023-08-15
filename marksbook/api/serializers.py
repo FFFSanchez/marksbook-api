@@ -9,11 +9,13 @@ class BookmarkSerializer(serializers.ModelSerializer):
     collection = serializers.SlugRelatedField(
         slug_field='title',
         queryset=Collection.objects.all(),
+        required=False,
     )
 
     class Meta:
         model = Bookmark
-        fields = '__all__'
+        fields = '__all__'  # ('link', 'collection', 'author')
+        read_only_fields = ('title', 'description', 'image_url')
 
 
 class CollectionSerializer(serializers.ModelSerializer):

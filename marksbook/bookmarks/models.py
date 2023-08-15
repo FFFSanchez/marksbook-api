@@ -1,6 +1,12 @@
 from django.db import models
 from api.models import MyUser
 
+import os
+from django.core.files import File
+from urllib.request import urlopen
+from tempfile import NamedTemporaryFile
+import urllib.request
+
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
@@ -36,12 +42,13 @@ class Bookmark(models.Model):
         default=website,
         verbose_name='type'
     )
-    image = models.ImageField(
+    image_file = models.ImageField(
         'Picture',
         upload_to='pictures/',
         blank=True,
         null=True,
     )
+    image_url = models.URLField()
     author = models.ForeignKey(
         MyUser, on_delete=models.CASCADE, related_name='bookmarks'
     )
@@ -60,3 +67,14 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_remote_image(self):
+        if self.image_url and not self.image_file:
+            img_temp = NamedTemporaryFile(delete=True)
+            img_temp.write(urlopen(self.image_url).read())
+            img_temp.flush()
+            self.image_file.save(f"image_{self.pk}", File(img_temp))
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.get_remote_image()

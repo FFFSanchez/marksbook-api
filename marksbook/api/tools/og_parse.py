@@ -1,0 +1,111 @@
+import urllib.request
+# from urllib.parse import urlparse
+from bs4 import BeautifulSoup
+
+
+def get_page(url):
+    """Scrapes a URL and returns the HTML source.
+    Args:
+        url (string): Fully qualified URL of a page.
+    Returns:
+        soup (string): HTML source of scraped page.
+    """
+
+    response = urllib.request.urlopen(url)
+    soup = BeautifulSoup(response,
+                         'html.parser',
+                         from_encoding=response.info().get_param('charset'))
+
+    return soup
+
+
+# soup = get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/")
+
+
+def get_og_title(soup):
+    """Return the Open Graph title
+    Args:
+        soup: HTML from Beautiful Soup.
+
+    Returns:
+        value: Parsed content.
+    """
+
+    if soup.findAll("meta", property="og:title"):
+        return soup.find("meta", property="og:title")["content"]
+    else:
+        return
+
+
+# og_title = get_og_title(soup)
+# print(og_title)
+
+
+def get_og_description(soup):
+    """Return the Open Graph description
+    Args:
+        soup: HTML from Beautiful Soup.
+
+    Returns:
+        value: Parsed content.
+    """
+    if soup.findAll("meta", property="og:description"):
+        return soup.find("meta", property="og:description")["content"]
+    else:
+        return
+
+
+# og_description = get_og_description(soup)
+# print(og_description)
+
+
+def get_og_url(soup):
+
+    if soup.findAll("meta", property="og:url"):
+        return soup.find("meta", property="og:url")["content"]
+    else:
+        return
+
+
+# og_url = get_og_url(soup)
+# print(og_url)
+
+
+def get_og_link_type(soup):
+
+    if soup.findAll("meta", property="og:type"):
+        return soup.find("meta", property="og:type")["content"]
+    else:
+        return
+
+
+# og_link_type = get_og_link_type(soup)
+# print(og_link_type)
+
+
+def get_og_image(soup):
+
+    if soup.findAll("meta", property="og:image"):
+        return soup.find("meta", property="og:image")["content"]
+    else:
+        return
+
+
+# og_image = get_og_image(soup)
+# print(og_image)
+
+
+# soup = get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/")
+
+def get_og_info(link):
+    soup = get_page(link)
+    og_info = {
+        # 'url': get_page("https://lenta.ru/news/2023/08/11/pitt_jolie_divorce/"),
+        'og_title': get_og_title(soup),
+        'og_description': get_og_description(soup),
+        'og_url': get_og_url(soup),
+        'og_link_type': get_og_link_type(soup),
+        'og_image': get_og_image(soup)
+    }
+    print(og_info)
+    return og_info

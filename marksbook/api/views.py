@@ -3,6 +3,13 @@ from .models import MyUser
 from .serializers import CollectionSerializer, BookmarkSerializer
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
+from .tools.og_parse import get_og_info
+
+
+import requests
+
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 
 
 class CollectionViewSet(viewsets.ModelViewSet):
@@ -19,5 +26,12 @@ class BookmarkViewSet(viewsets.ModelViewSet):
     # permission_classes = [OwnerOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
+        page_og_info = get_og_info(self.request.data.get("link"))
+        # print(page_og_info)
+        serializer.save(
+            author=self.request.user,
+            title=page_og_info.get('og_title'),
+            description=page_og_info.get('og_description'),
+            type_of_link=page_og_info.get('og_link_type'),
+            image_url=page_og_info.get('og_image'),
+        )
