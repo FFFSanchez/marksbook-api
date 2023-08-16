@@ -3,6 +3,7 @@
 
 ### Стек
 + Django DRF
++ PostgreSQL
 + Docker compose
 + Nginx
 + WSL
