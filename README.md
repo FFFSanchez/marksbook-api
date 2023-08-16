@@ -89,6 +89,6 @@ docker-compose run backend cp -r /app/collected_static/. /app/static_bm_backend/
 Так же доступны все возможные действия со своим аккаунтом, т.к. используется djoser - все ендпоинты прописаны в Swagger
 
 
-#### CI/CD через github workflow в процессе настройки
+##### CI/CD через github workflow на сервер Yandex Cloud в процессе настройки, будет в ближайших коммитах
 
 ### Автор: Александр Трифонов
