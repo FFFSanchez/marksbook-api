@@ -23,7 +23,7 @@ git clone https://github.com/FFFSanchez/marksbook-api.git
 Добавить свой файл .env в главную папку marksbook, в ту же, где Dockerfile, пример файла:
 
 ```
-SECRET_KEY=django-insecure-($vi^cu)cp=ot8e5a%*x#nv3ifv&+vlol32xji)(xa+qn!#9i*
+SECRET_KEY=******
 
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
