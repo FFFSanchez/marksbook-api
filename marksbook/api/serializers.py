@@ -40,7 +40,7 @@ class CollectionSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='email',
         read_only=True)
-    
+
     # Maybe use slug-fields for this, to make it unique and undestandable
     bookmarks = serializers.SlugRelatedField(
         many=True,

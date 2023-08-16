@@ -4,4 +4,3 @@ venv
 db.sqlite3
 .vscode
 #.env
-# collected_static/
