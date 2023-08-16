@@ -48,6 +48,7 @@ docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. 
 Готово, сервис запущен и доступен на localhost:8000 
 
 Документация к эндпоинтам доступна по адресу http://localhost:8000/swagger/
+
 Админ панель также настроена и доступна по стандарту http://localhost:8000/admin/
 
 ## Описание функциональности
