@@ -20,19 +20,7 @@
 git clone https://github.com/FFFSanchez/marksbook-api.git
 ```
 
-Cоздать и активировать виртуальное окружение, установить зависимости:
-
-```
-python -m venv env
-
-source venv/Scripts/activate
-
-python -m pip install --upgrade pip
-
-pip install -r requirements.txt
-```
-
-Добавить свой файл .env в главную папку marksbook, пример файла:
+Добавить свой файл .env в главную папку marksbook, в ту же, где Dockerfile, пример файла:
 
 ```
 SECRET_KEY=django-insecure-($vi^cu)cp=ot8e5a%*x#nv3ifv&+vlol32xji)(xa+qn!#9i*
@@ -51,10 +39,10 @@ DB_PORT=5432
 ```
 находясь в одной папке с docker-compose.yml
 
-docker-compose up --build -d
-docker-compose run backend python manage.py migrate
-docker-compose run backend python manage.py collectstatic
-docker-compose run backend cp -r /app/collected_static/. /app/static_bm_backend/static/
+docker compose -f docker-compose.yml up --build -d
+docker compose -f docker-compose.yml exec backend python manage.py migrate
+docker compose -f docker-compose.yml exec backend python manage.py collectstatic
+docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /app/static_bm_backend/static/
 ```
 
 Готово, сервис запущен и доступен на localhost:8000 
