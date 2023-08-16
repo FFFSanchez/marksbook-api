@@ -1,9 +1,10 @@
-from django.db import models
-from api.models import MyUser
+from tempfile import NamedTemporaryFile
+from urllib.request import urlopen
 
 from django.core.files import File
-from urllib.request import urlopen
-from tempfile import NamedTemporaryFile
+from django.db import models
+
+from api.models import MyUser
 
 
 class Collection(models.Model):

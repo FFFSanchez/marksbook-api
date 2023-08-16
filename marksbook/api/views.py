@@ -1,8 +1,10 @@
-from bookmarks.models import Collection, Bookmark
-from .serializers import CollectionSerializer, BookmarkSerializer
 from rest_framework import viewsets
-from .tools.og_parse import get_og_info
+
+from bookmarks.models import Bookmark, Collection
+
 from .permissions import OwnerOrReadOnly
+from .serializers import BookmarkSerializer, CollectionSerializer
+from .tools.og_parse import get_og_info
 
 
 class CollectionViewSet(viewsets.ModelViewSet):

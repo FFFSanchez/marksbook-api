@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  pgdbdata:
+  media:
+  static:
+
+services:
+  backend:
+    build: .
+    container_name: booksmarks
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - media:/app/media
+      - static:/app/static_bm_backend
+    # ports:
+    #   - 8000:8000
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: pgdb
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+
+  gateway:
+    build: nginx/
+    container_name: bm_nginx
+    ports:
+      - 8000:80
+    volumes:
+      - media:/media_bm_nginx
+      - static:/static_bm_nginx
+    depends_on:
+      - backend

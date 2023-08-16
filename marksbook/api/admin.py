@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from bookmarks.models import Collection, Bookmark, BookmarksCollections
+from bookmarks.models import Bookmark, BookmarksCollections, Collection
+
 from .models import MyUser
 
 

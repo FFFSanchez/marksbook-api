@@ -1,4 +1,5 @@
 import urllib.request
+
 from bs4 import BeautifulSoup
 
 
@@ -10,10 +11,11 @@ def get_page(url):
         soup (string): HTML source of scraped page.
     """
     response = urllib.request.urlopen(url)
-    soup = BeautifulSoup(response,
-                         'html.parser',
-                         from_encoding=response.info().get_param('charset'))
-
+    soup = BeautifulSoup(
+        response,
+        'html.parser',
+        from_encoding=response.info().get_param('charset')
+        )
     return soup
 
 
@@ -60,13 +62,14 @@ def get_og_image(soup):
     else:
         return None
 
-# soup2 = get_page("http://atrifonov.pythonanywhere.com/0/")
-# print(get_no_og_title(soup2))
-
 
 def get_og_info(link):
     """ Get nessesary og info from page by url link """
-    soup = get_page(link)
+    try:
+        soup = get_page(link)
+    except Exception as err:
+        print(err)
+        return False
     try:
         og_info = {
             'og_title': get_og_title(soup),
