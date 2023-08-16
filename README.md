@@ -81,6 +81,7 @@ docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. 
 - Добавить закладки в коллекию можно PATCH запросом на ендпоинт конкретной коллекции (`http://localhost:8000/api/v1/bookmarks/<id>/`)(передав список с id закладки или закладок)
 - Удалить коллекцию(Удаляется только коллекция, закладки остаются у пользователя)(DELETE `http://localhost:8000/api/v1/collections/<id>/`)
 - Поменять название/описание коллекции (PATCH `http://localhost:8000/api/v1/collections/<id>/`)
+
 Так же доступны все возможные действия со своим аккаунтом, т.к. используется djoser - все ендпоинты прописаны в Swagger
 
 
