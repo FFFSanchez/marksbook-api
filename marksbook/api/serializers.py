@@ -22,17 +22,18 @@ class BookmarkSerializer(serializers.ModelSerializer):
         read_only_fields = ('title', 'description', 'image_url')
 
     def validate(self, attrs):
-        author = self.context['request'].user
-        link = attrs['link']
-        if self.context['request'].method == 'POST':
-            if Bookmark.objects.filter(author=author, link=link).exists():
-                raise serializers.ValidationError(
-                    'This bookmark has already been added by you!'
-                )
-            if not get_og_info(link):
-                raise serializers.ValidationError(
-                    'Bad link or site cant be reached!'
-                )
+        if attrs.get('link'):
+            author = self.context['request'].user
+            link = attrs['link']
+            if self.context['request'].method == 'POST':
+                if Bookmark.objects.filter(author=author, link=link).exists():
+                    raise serializers.ValidationError(
+                        'This bookmark has already been added by you!'
+                    )
+                if not get_og_info(link):
+                    raise serializers.ValidationError(
+                        'Bad link or site cant be reached!'
+                    )
         return attrs
 
 
